@@ -206,7 +206,7 @@ sub question($server, $msg, $nick, $target) {
 					}
 				}
 			}
-			$rolls[$forloop] = $rnd;
+			$rolls[$forloop] = $value;
 		}
 		given ($lang) {
 			when ('DE') {
