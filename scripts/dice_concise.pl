@@ -187,33 +187,33 @@ sub question($server, $msg, $nick, $target) {
 			if ($rnd == 0) {
 				$rnd = $sides;
 			}
-			$value += $rnd;
-			$rolls[$forloop] = $rnd;
-		}
-		foreach (@modifiers) {
-			($modifyType) = ($_ =~ /([\+\-\*\/])/);
-			($modifyVal) = ($_ =~ /(\d+)/);
-			given ($modifyType) {
-				when ('*') {
-					$value = $value * $modifyVal;
-				}
-				when ('/') {
-					$value = $value / $modifyVal;
-				}
-				when ('+') {
-					$value = $value + $modifyVal;
-				}
-				when ('-') {
-					$value = $value - $modifyVal;
+			$value = $rnd;
+			foreach (@modifiers) {
+				($modifyType) = ($_ =~ /([\+\-\*\/])/);
+				($modifyVal) = ($_ =~ /(\d+)/);
+				given ($modifyType) {
+					when ('*') {
+						$value = $value * $modifyVal;
+					}
+					when ('/') {
+						$value = $value / $modifyVal;
+					}
+					when ('+') {
+						$value = $value + $modifyVal;
+					}
+					when ('-') {
+						$value = $value - $modifyVal;
+					}
 				}
 			}
+			$rolls[$forloop] = $rnd;
 		}
 		given ($lang) {
 			when ('DE') {
 				$server->command('msg ' . $target . ' '. $nick . ' würfelt mit dem ' . $roll[1] . ' und erhält: ' . $value . ' [' . join(', ', @rolls) . ']');
 			}
 			when ('EN') {
-				$server->command('msg ' . $target . ' '. $nick . ' rolls the ' . $roll[1] . ' and gets: ' . $value . ' [' . join(', ', @rolls) . ']');
+				$server->command('msg ' . $target . ' '. $nick . ' rolls the ' . $roll[1] . ' and gets: ' . ' [' . join(', ', @rolls) . ']');
 			}
 		}
 		if (@modifyErrors) {
