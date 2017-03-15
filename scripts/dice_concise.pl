@@ -122,6 +122,7 @@ sub question($server, $msg, $nick, $target) {
 		my $value;
 		# Plus support added
 		my @rolls;
+		my @raw_rolls;
 
 		if (/\d[w]\d/i) {
 			$lang = 'DE';
@@ -139,7 +140,7 @@ sub question($server, $msg, $nick, $target) {
 				}
 			}
 			return 0;
-		} elsif ($dice > 100) {
+		} elsif ($dice > 5000) {
 			given ($lang) {
 				when ('DE') {
 					$server->command('msg ' . $target . ' ' . $nick  . ' scheitert den ' . $roll[1] . ' zu werfen... Versuch es mit weniger Würfeln.');
@@ -207,13 +208,14 @@ sub question($server, $msg, $nick, $target) {
 				}
 			}
 			$rolls[$forloop] = $value;
+			$raw_rolls[$forloop] = $rnd;
 		}
 		given ($lang) {
 			when ('DE') {
-				$server->command('msg ' . $target . ' '. $nick . ' würfelt mit dem ' . $roll[1] . ' und erhält: ' . $value . ' [' . join(', ', @rolls) . ']');
+				$server->command('msg ' . $target . ' '. $nick . ' würfelt mit dem ' . $roll[1] . ' und erhält: ' . ' ' . join(', ', @rolls) . ' ' . '[' . join(', ', @raw_rolls) . ']');
 			}
 			when ('EN') {
-				$server->command('msg ' . $target . ' '. $nick . ' rolls the ' . $roll[1] . ' and gets: ' . ' [' . join(', ', @rolls) . ']');
+				$server->command('msg ' . $target . ' '. $nick . ' rolls the ' . $roll[1] . ' and gets: ' . ' ' . join(', ', @rolls) . ' ' . '[' . join(', ', @raw_rolls) . ']');
 			}
 		}
 		if (@modifyErrors) {
